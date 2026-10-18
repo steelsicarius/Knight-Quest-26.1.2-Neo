@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": "knightquest:ratman_eye",
+    "S": "minecraft:netherite_axe",
+    "X": "minecraft:iron_block"
+  },
+  "pattern": [
+    "X",
+    "I",
+    "S"
+  ],
+  "result": {
+    "id": "knightquest:cleaver"
+  },
+  "show_notification": true
+}

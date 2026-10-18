@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:diamond",
+    "minecraft:clock",
+    "minecraft:blue_ice",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_helmet"
+  ],
+  "result": {
+    "id": "knightquest:conquistador3_helmet"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:sandstone",
+    "minecraft:lapis_lazuli",
+    "minecraft:yellow_dye",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:husk_chestplate"
+  }
+}

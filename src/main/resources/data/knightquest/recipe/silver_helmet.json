@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:feather",
+    "minecraft:iron_block",
+    "minecraft:black_dye",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_helmet"
+  ],
+  "result": {
+    "id": "knightquest:silver_helmet"
+  }
+}

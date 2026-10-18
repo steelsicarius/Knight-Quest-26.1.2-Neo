@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:cobbled_deepslate",
+    "minecraft:chiseled_deepslate",
+    "minecraft:deepslate_bricks",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:deepslate_chestplate"
+  }
+}

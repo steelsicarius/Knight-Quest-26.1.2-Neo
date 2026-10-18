@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:cyan_bed",
+    "minecraft:phantom_membrane",
+    "minecraft:heart_of_the_sea",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:sea_chestplate"
+  }
+}

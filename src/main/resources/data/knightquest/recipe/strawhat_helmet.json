@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:white_wool",
+    "minecraft:clock",
+    "minecraft:ink_sac",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_helmet"
+  ],
+  "result": {
+    "id": "knightquest:strawhat_helmet"
+  }
+}

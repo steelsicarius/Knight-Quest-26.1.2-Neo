@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bone_block",
+    "minecraft:bone",
+    "minecraft:bone_meal",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:skeleton_chestplate"
+  }
+}

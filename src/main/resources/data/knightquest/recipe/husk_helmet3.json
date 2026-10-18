@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:sandstone",
+    "minecraft:pufferfish",
+    "minecraft:yellow_dye",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_helmet"
+  ],
+  "result": {
+    "id": "knightquest:husk_helmet3"
+  }
+}

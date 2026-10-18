@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:lime_dye",
+    "knightquest:ratman_eye",
+    "minecraft:deepslate_iron_ore",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_boots"
+  ],
+  "result": {
+    "id": "knightquest:forze_boots"
+  }
+}

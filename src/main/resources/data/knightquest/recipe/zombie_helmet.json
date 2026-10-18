@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:rotten_flesh",
+    "minecraft:poisonous_potato",
+    "minecraft:green_dye",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_helmet"
+  ],
+  "result": {
+    "id": "knightquest:zombie_helmet"
+  }
+}

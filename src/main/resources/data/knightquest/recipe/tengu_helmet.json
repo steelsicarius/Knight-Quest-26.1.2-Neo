@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:red_glazed_terracotta",
+    "minecraft:redstone_torch",
+    "minecraft:red_sand",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_helmet"
+  ],
+  "result": {
+    "id": "knightquest:tengu_helmet"
+  }
+}

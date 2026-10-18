@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:iron_axe",
+    "minecraft:melon_slice",
+    "minecraft:apple",
+    "knightquest:filled_goblet",
+    "minecraft:iron_helmet"
+  ],
+  "result": {
+    "id": "knightquest:chainmail_helmet"
+  }
+}

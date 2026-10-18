@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:nether_wart",
+    "minecraft:magma_cream",
+    "knightquest:ratman_eye",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_helmet"
+  ],
+  "result": {
+    "id": "knightquest:nether_helmet"
+  }
+}

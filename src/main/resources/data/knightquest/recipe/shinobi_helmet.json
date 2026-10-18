@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:diamond_sword",
+    "minecraft:cherry_wood",
+    "minecraft:red_banner",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_helmet"
+  ],
+  "result": {
+    "id": "knightquest:shinobi_helmet"
+  }
+}

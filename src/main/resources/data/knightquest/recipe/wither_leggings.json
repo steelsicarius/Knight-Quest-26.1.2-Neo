@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:wither_skeleton_skull",
+    "minecraft:wither_rose",
+    "minecraft:bone",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_leggings"
+  ],
+  "result": {
+    "id": "knightquest:wither_leggings"
+  }
+}

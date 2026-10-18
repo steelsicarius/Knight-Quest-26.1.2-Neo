@@ -1,0 +1,10 @@
+{
+  "the_architect_of_chaos": {
+    "sounds": [
+      {
+        "name": "knightquest:the_architect_of_chaos",
+        "stream": true
+      }
+    ]
+  }
+}

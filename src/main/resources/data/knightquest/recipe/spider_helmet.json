@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:piston",
+    "minecraft:spider_eye",
+    "minecraft:bone_meal",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_helmet"
+  ],
+  "result": {
+    "id": "knightquest:spider_helmet"
+  }
+}

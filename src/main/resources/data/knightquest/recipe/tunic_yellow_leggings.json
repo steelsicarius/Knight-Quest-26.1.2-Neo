@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:yellow_dye",
+    "minecraft:leather",
+    "minecraft:apple",
+    "knightquest:filled_goblet",
+    "minecraft:iron_leggings"
+  ],
+  "result": {
+    "id": "knightquest:tunic_yellow_leggings"
+  }
+}

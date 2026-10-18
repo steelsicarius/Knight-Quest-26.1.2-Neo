@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "knightquest:apple"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "knightquest:apple"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:red_dye",
+    "minecraft:dripstone_block",
+    "minecraft:ink_sac",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_boots"
+  ],
+  "result": {
+    "id": "knightquest:bat_boots"
+  }
+}

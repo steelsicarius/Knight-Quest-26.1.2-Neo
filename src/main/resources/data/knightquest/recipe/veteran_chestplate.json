@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:iron_horse_armor",
+    "minecraft:diamond_sword",
+    "minecraft:enchanted_golden_apple",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:veteran_chestplate"
+  }
+}

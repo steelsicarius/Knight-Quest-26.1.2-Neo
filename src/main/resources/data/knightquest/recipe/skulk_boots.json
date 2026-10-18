@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:sculk_sensor",
+    "minecraft:green_candle",
+    "minecraft:white_concrete",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_boots"
+  ],
+  "result": {
+    "id": "knightquest:skulk_boots"
+  }
+}

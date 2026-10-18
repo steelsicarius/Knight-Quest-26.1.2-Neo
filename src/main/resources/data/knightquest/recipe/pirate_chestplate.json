@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:map",
+    "minecraft:clock",
+    "minecraft:bone",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:pirate_chestplate"
+  }
+}

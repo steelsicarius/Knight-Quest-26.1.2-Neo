@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:enchanted_golden_apple",
+    "minecraft:magma_cream",
+    "minecraft:red_mushroom",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:hollow_chestplate"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "knightquest:lizzy_scale",
+    "minecraft:phantom_membrane",
+    "minecraft:lime_dye",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_helmet"
+  ],
+  "result": {
+    "id": "knightquest:phantom_helmet"
+  }
+}

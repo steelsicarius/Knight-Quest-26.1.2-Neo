@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:snowball",
+    "minecraft:iron_axe",
+    "minecraft:stripped_mangrove_log",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_leggings"
+  ],
+  "result": {
+    "id": "knightquest:polar_leggings"
+  }
+}

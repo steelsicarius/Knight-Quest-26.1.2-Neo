@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": "knightquest:filled_goblet",
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "X",
+    "I",
+    "S"
+  ],
+  "result": {
+    "id": "knightquest:kukri_dagger"
+  },
+  "show_notification": true
+}

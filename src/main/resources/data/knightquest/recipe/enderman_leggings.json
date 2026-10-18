@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:ender_pearl",
+    "knightquest:lizzy_scale",
+    "minecraft:amethyst_shard",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_leggings"
+  ],
+  "result": {
+    "id": "knightquest:enderman_leggings"
+  }
+}

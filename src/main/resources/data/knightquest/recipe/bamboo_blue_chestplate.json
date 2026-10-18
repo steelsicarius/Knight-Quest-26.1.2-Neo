@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:blue_dye",
+    "minecraft:bamboo",
+    "minecraft:gold_ingot",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_chestplate"
+  ],
+  "result": {
+    "id": "knightquest:bamboo_blue_chestplate"
+  }
+}

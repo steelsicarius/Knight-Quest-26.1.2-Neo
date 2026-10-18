@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:goat_horn",
+    "minecraft:lapis_lazuli",
+    "minecraft:sand",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_leggings"
+  ],
+  "result": {
+    "id": "knightquest:horn_leggings"
+  }
+}

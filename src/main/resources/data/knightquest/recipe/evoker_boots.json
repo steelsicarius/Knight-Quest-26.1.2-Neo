@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "knightquest:lizzy_scale",
+    "minecraft:dark_oak_log",
+    "minecraft:lapis_lazuli",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_boots"
+  ],
+  "result": {
+    "id": "knightquest:evoker_boots"
+  }
+}

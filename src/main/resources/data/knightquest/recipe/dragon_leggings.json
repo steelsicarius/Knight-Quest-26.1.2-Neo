@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:ender_eye",
+    "minecraft:shulker_shell",
+    "minecraft:end_stone_bricks",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_leggings"
+  ],
+  "result": {
+    "id": "knightquest:dragon_leggings"
+  }
+}

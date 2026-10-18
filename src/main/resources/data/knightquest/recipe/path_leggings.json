@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:black_dye",
+    "minecraft:coarse_dirt",
+    "minecraft:leather",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_leggings"
+  ],
+  "result": {
+    "id": "knightquest:path_leggings"
+  }
+}

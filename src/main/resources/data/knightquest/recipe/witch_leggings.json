@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:poisonous_potato",
+    "minecraft:glass_bottle",
+    "minecraft:red_concrete_powder",
+    "knightquest:filled_goblet",
+    "minecraft:diamond_leggings"
+  ],
+  "result": {
+    "id": "knightquest:witch_leggings"
+  }
+}

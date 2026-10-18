@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:deepslate_iron_ore",
+    "minecraft:lapis_lazuli",
+    "minecraft:red_banner",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_leggings"
+  ],
+  "result": {
+    "id": "knightquest:squire_leggings"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:sculk_sensor",
+    "minecraft:green_candle",
+    "minecraft:green_glazed_terracotta",
+    "knightquest:filled_goblet",
+    "minecraft:netherite_helmet"
+  ],
+  "result": {
+    "id": "knightquest:skulk2_helmet"
+  }
+}
