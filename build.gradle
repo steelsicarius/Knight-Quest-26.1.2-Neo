@@ -28,6 +28,14 @@ sourceSets.main.resources {
 
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
+    maven {
+        name = 'GeckoLib'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex("com\\.geckolib.*")
+            includeGroup("com.eliotlash.mclib")
+        }
+    }
 }
 
 base {
@@ -111,6 +119,9 @@ configurations {
 }
 
 dependencies {
+    // GeckoLib (animation library) - 5.x targets MC 26.x with the com.geckolib group
+    implementation "com.geckolib:geckolib-neoforge-${minecraft_version}:5.5.2"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
@@ -145,6 +156,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            mod_author             : mod_author,
+            mod_description        : mod_description,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
