@@ -52,7 +52,7 @@ public class NailWeapon extends KQWeaponItem {
         boolean canDash = doubleJumpStates.getOrDefault(player.getUUID(), true);
 
         if (canDash) {
-            if (player.level().isClientSide) {
+            if (player.level().isClientSide()) {
                 doubleJumpStates.put(player.getUUID(), false);
 
                 double dashSpeed = KQConfigValues.DASH_POWER_NAIL.get();
@@ -60,7 +60,7 @@ public class NailWeapon extends KQWeaponItem {
                 player.setDeltaMovement(player.getLookAngle().scale(dashSpeed));
             }
 
-            if (!player.level().isClientSide && player.level() instanceof ServerLevel level) {
+            if (!player.level().isClientSide() && player.level() instanceof ServerLevel level) {
                 Vec3 playerPos = player.position().add(0, 1.0, 0);
                 Vec3 dashDirection = player.getLookAngle().scale(0.5);
 

@@ -13,6 +13,6 @@ public class KQLootModifiers {
             DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, KnightQuest.MOD_ID);
 
     public static final DeferredHolder<MapCodec<? extends IGlobalLootModifier>, MapCodec<? extends IGlobalLootModifier>> ADD_ITEM =
-            LOOT_MODIFIER_SERIALIZERS.register("add_item", KQAddItemModifier.CODEC);
+            LOOT_MODIFIER_SERIALIZERS.register("add_item", () -> KQAddItemModifier.CODEC);
 
 }

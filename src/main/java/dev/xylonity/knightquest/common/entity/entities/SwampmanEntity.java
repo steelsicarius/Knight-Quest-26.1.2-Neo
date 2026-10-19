@@ -1,0 +1,185 @@
+package dev.xylonity.knightquest.common.entity.entities;
+
+import com.geckolib.animatable.GeoEntity;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.animation.state.AnimationTest;
+import com.geckolib.util.GeckoLibUtil;
+import dev.xylonity.knightquest.common.entity.entities.ai.RangedAttackGoal;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public class SwampmanEntity extends Monster implements GeoEntity, RangedAttackMob {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(SwampmanEntity.class, EntityDataSerializers.INT);
+    private boolean isHalfHealth;
+
+    public SwampmanEntity(EntityType<? extends Monster> entityType, Level world) {
+        super(entityType, world);
+        this.initEquipment();
+    }
+
+    @Override
+    protected int increaseAirSupply(int pCurrentAir) {
+        return this.getMaxAirSupply();
+    }
+
+    private void initEquipment() {
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(PHASE, 1);
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, EntitySpawnReason pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
+
+        AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(KQConfigValues.SWAMPMAN_MAX_HEALTH.get());
+            this.setHealth(KQConfigValues.SWAMPMAN_MAX_HEALTH.get().floatValue());
+        }
+
+        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
+    }
+
+    public int getPhase() { return this.entityData.get(PHASE); }
+
+    public void setPhase(int phase) { this.entityData.set(PHASE, phase); }
+
+    public static AttributeSupplier.Builder setAttributes() {
+        return Monster.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 50.0D)
+                .add(Attributes.ATTACK_DAMAGE, 7f)
+                .add(Attributes.ATTACK_SPEED, 0.5f)
+                .add(Attributes.MOVEMENT_SPEED, 0.5f);
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new RangedAttackGoal<>(this, 0.7D, 10, 15.0f));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, true));
+        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+    }
+
+    @Override
+    public void performRangedAttack(@NotNull LivingEntity pTarget, float pVelocity) {
+        SwampmanAxeEntity swampmanAxeEntity = new SwampmanAxeEntity(level(), this);
+        double d0 = pTarget.getX() - this.getX();
+        double d1 = pTarget.getY(0.34D) - swampmanAxeEntity.getY();
+        double d2 = pTarget.getZ() - this.getZ();
+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+        swampmanAxeEntity.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.3F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(swampmanAxeEntity);
+    }
+
+    @Override
+    public int getMaxAirSupply() {
+        return 1000;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>("controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>("attackcontroller", 0, this::attackPredicate));
+    }
+
+    private PlayState attackPredicate(AnimationTest<SwampmanEntity> event) {
+
+        if (this.isUsingItem() && this.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
+            event.controller().setAnimation(RawAnimation.begin().thenPlay("bow_attack"));
+        } else if (this.swinging && event.controller().hasAnimationFinished()) {
+            event.setAndContinue(RawAnimation.begin().thenPlay("attack"));
+            this.swinging = false;
+        }
+
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.getHealth() < getMaxHealth() * 0.5) {
+
+            if (!this.isHalfHealth && KQConfigValues.CAN_CHANGE_PHASE_SWAMPMAN.get()) {
+                this.level().playSound(null, this.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.HOSTILE, 1.0F, 1.0F);
+                this.isHalfHealth = true;
+
+                setPhase(2);
+            }
+        }
+        if (this.getPhase() == 2 && tickCount % 20 == 0) {
+            this.heal(KQConfigValues.PHASE_2_HEALING_SWAMPMAN.get().floatValue());
+        }
+    }
+
+    private PlayState predicate(AnimationTest<SwampmanEntity> event) {
+
+        if (event.isMoving()) {
+            event.setAndContinue(RawAnimation.begin().thenLoop("walk"));
+        } else {
+            event.setAndContinue(RawAnimation.begin().thenLoop("idle"));
+        }
+
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    @Override
+    protected @NotNull SoundEvent getSwimSound() {
+        return SoundEvents.AXOLOTL_SWIM;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.CAMEL_DEATH;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
+        return SoundEvents.CAMEL_HURT;
+    }
+
+}

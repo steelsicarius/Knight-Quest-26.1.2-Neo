@@ -1,4 +1,4 @@
-package dev.xylonity.knightquest.common;
+package dev.xylonity.knightquest;
 
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.platform.KnightQuestPlatform;

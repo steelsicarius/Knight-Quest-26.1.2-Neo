@@ -18,7 +18,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -64,8 +66,8 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerSpawnEggItem(String id, Supplier<EntityType<?>> entity) {
-        return (Supplier<T>) registerItem(id, () -> new SpawnEggItem(new Item.Properties().spawnEgg(entity.get())));
+    public <T extends Mob> Supplier<Item> registerSpawnEggItem(String id, Supplier<EntityType<T>> entity) {
+        return registerItem(id, () -> new SpawnEggItem(new Item.Properties().spawnEgg(entity.get())));
     }
 
     @Override

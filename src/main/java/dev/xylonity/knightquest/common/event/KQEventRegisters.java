@@ -14,7 +14,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
-@EventBusSubscriber(modid = KnightQuest.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = KnightQuest.MOD_ID)
 public class KQEventRegisters {
 
     /**
@@ -40,11 +40,11 @@ public class KQEventRegisters {
      */
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent.Server event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
 
-        generator.addProvider(event.includeServer(), new KQGlobalLootModifiersProvider(packOutput, event.getLookupProvider(), KnightQuest.MOD_ID));
+        generator.addProvider(true, new KQGlobalLootModifiersProvider(packOutput, event.getLookupProvider(), KnightQuest.MOD_ID));
     }
 
 }

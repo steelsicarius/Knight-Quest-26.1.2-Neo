@@ -1,10 +1,11 @@
 package dev.xylonity.knightquest;
 
 import com.mojang.logging.LogUtils;
-import dev.xylonity.knightquest.common.KnightQuestCommon;
+import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.config.KnightQuestCommonConfigs;
 import dev.xylonity.knightquest.datagen.KQLootModifiers;
 import dev.xylonity.knightquest.registry.KnightQuestCreativeModeTabs;
+import dev.xylonity.knightquest.registry.KnightQuestItems;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;

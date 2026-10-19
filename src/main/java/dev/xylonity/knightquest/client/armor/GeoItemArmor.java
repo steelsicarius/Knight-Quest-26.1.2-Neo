@@ -49,10 +49,10 @@ public class GeoItemArmor extends KQArmorItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllers.add(new AnimationController<>("controller", 0, this::predicate));
     }
 
-    private PlayState predicate(AnimationTest<?> animationTest) {
+    private PlayState predicate(AnimationTest<GeoItemArmor> animationTest) {
         animationTest.setAndContinue(RawAnimation.begin().then("idle", com.geckolib.animation.object.LoopType.LOOP));
         return PlayState.CONTINUE;
     }

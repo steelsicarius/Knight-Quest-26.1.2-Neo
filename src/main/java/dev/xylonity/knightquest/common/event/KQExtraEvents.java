@@ -2,6 +2,7 @@ package dev.xylonity.knightquest.common.event;
 
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.common.entity.entities.SamhainEntity;
+import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -33,7 +34,7 @@ public class KQExtraEvents {
 
         if (block == Blocks.JACK_O_LANTERN && level.getBlockState(pos.below()).getBlock() == Blocks.GOLD_BLOCK) {
             SamhainEntity samhain = new SamhainEntity(KnightQuestEntities.SAMHAIN.get(), level);
-            samhain.moveTo(pos.getX() + 0.5, pos.getY() - 1, pos.getZ() + 0.5, level.random.nextFloat() * 360.0F, 0.0F);
+            samhain.snapTo(pos.getX() + 0.5, pos.getY() - 1, pos.getZ() + 0.5, level.getRandom().nextFloat() * 360.0F, 0.0F);
             level.destroyBlock(pos,false);
             level.destroyBlock(pos.below(), false);
             level.playSound(null, pos, SoundEvents.ALLAY_AMBIENT_WITHOUT_ITEM, SoundSource.BLOCKS, 1f, 1f);

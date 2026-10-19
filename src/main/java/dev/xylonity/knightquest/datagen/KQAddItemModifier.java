@@ -16,7 +16,6 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
-import java.util.function.Supplier;
 
 /**
  * Port note (26.1.2): {@link LootModifier} now carries a priority field; the codec records
@@ -25,19 +24,22 @@ import java.util.function.Supplier;
  */
 public class KQAddItemModifier extends LootModifier {
 
-    public static final Supplier<MapCodec<KQAddItemModifier>> CODEC = Suppliers.memoize(() ->
-            RecordCodecBuilder.mapCodec(inst ->
-                    codecStart(inst).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(KQAddItemModifier::getItem))
-                            .and(Codec.FLOAT.fieldOf("chance").forGetter(KQAddItemModifier::getChance))
-                            .apply(inst, KQAddItemModifier::new)));
+    public static final MapCodec<KQAddItemModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
+            codecStart(inst).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(KQAddItemModifier::getItem))
+                    .and(Codec.FLOAT.fieldOf("chance").forGetter(KQAddItemModifier::getChance))
+                    .apply(inst, KQAddItemModifier::new));
 
     private final Item item;
     private float chance;
 
-    public KQAddItemModifier(LootItemCondition[] conditionsIn, Item item, float chance) {
-        super(conditionsIn, IGlobalLootModifier.DEFAULT_PRIORITY);
+    public KQAddItemModifier(LootItemCondition[] conditionsIn, int priority, Item item, float chance) {
+        super(conditionsIn, priority);
         this.item = item;
         this.chance = chance;
+    }
+
+    public KQAddItemModifier(LootItemCondition[] conditionsIn, Item item, float chance) {
+        this(conditionsIn, IGlobalLootModifier.DEFAULT_PRIORITY, item, chance);
     }
 
     public Item getItem() {
@@ -63,7 +65,7 @@ public class KQAddItemModifier extends LootModifier {
 
     @Override
     public MapCodec<? extends IGlobalLootModifier> codec() {
-        return CODEC.get();
+        return CODEC;
     }
 
 }

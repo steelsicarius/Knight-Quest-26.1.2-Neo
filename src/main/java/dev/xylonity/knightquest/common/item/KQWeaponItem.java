@@ -47,19 +47,19 @@ public abstract class KQWeaponItem extends Item {
         CompoundTag dataTag = customData.copyTag();
 
         long currentTime = level.getGameTime();
-        long lastUsed = dataTag.getLong("LastUsed");
+        long lastUsed = dataTag.getLongOr("LastUsed", 0L);
         int cooldownTicks = getCooldownTicks();
 
         if (currentTime - lastUsed >= cooldownTicks) {
             interaction(level, player, hand);
 
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 dataTag.putLong("LastUsed", currentTime);
                 stack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
                 player.getCooldowns().addCooldown(stack, cooldownTicks);
             }
 
-            return level.isClientSide ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
         }
 
         return InteractionResult.FAIL;

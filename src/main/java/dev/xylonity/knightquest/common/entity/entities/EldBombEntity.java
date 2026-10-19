@@ -1,0 +1,197 @@
+package dev.xylonity.knightquest.common.entity.entities;
+
+import com.geckolib.animatable.GeoEntity;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.object.EasingType;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.animation.state.AnimationTest;
+import com.geckolib.util.GeckoLibUtil;
+import dev.xylonity.knightquest.config.values.KQConfigValues;
+import dev.xylonity.knightquest.registry.KnightQuestParticles;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.polarbear.PolarBear;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.Nullable;
+
+public class EldBombEntity extends Creeper implements GeoEntity {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private int oldSwell;
+    private int swell;
+    private int maxSwell = 30;
+    private int explosionRadius = 3;
+
+    public EldBombEntity(EntityType<? extends Creeper> entityType, Level world) {
+        super(entityType, world);
+    }
+
+    public static AttributeSupplier.Builder setAttributes() {
+        return Creeper.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 7.0D)
+                .add(Attributes.ATTACK_DAMAGE, 0.5f)
+                .add(Attributes.ATTACK_SPEED, 1.0f)
+                .add(Attributes.MOVEMENT_SPEED, 0.5f);
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, EntitySpawnReason pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
+
+        AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(KQConfigValues.ELDBOMB_MAX_HEALTH.get());
+            this.setHealth(KQConfigValues.ELDBOMB_MAX_HEALTH.get().floatValue());
+        }
+
+        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new SwellGoal(this));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, PolarBear.class, 35.0F, 1.0, 0.5));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.5, false));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.5));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+    }
+
+    private PlayState predicate(AnimationTest<EldBombEntity> event) {
+
+        if (this.swell > 10) {
+            event.setAndContinue(RawAnimation.begin().thenLoop("sneak"));
+        } else if (event.isMoving()) {
+            event.setAndContinue(RawAnimation.begin().thenLoop("walk"));
+        } else {
+            event.setAndContinue(RawAnimation.begin().thenLoop("idle"));
+        }
+
+        return PlayState.CONTINUE;
+    }
+
+    public int getSwell() {
+        return this.swell;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void tick() {
+        if (this.isAlive()) {
+            this.oldSwell = this.swell;
+            if (this.isIgnited()) {
+                this.setSwellDir(1);
+            }
+
+            int swellDir = this.getSwellDir();
+            if (swellDir > 0 && this.swell == 0) {
+                this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
+                this.gameEvent(GameEvent.PRIME_FUSE);
+            }
+
+            this.swell += swellDir;
+            if (this.swell < 0) {
+                this.swell = 0;
+            }
+
+            if (this.swell >= this.maxSwell) {
+                this.swell = this.maxSwell;
+
+                this.poisonNearbyPlayers();
+
+                this.explode();
+            }
+        }
+
+        super.tick();
+    }
+
+    private void explode() {
+        if (!this.level().isClientSide()) {
+            float power = this.isPowered() ? 2.5F : 1.0F;
+            this.dead = true;
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * power, Level.ExplosionInteraction.MOB);
+
+            if (this.level() instanceof ServerLevel serverLevel) {
+                for (int i = 0; i < 6; i++) {
+                    double particleX = this.getX();
+                    double particleY = this.getY() + 1;
+                    double particleZ = this.getZ();
+
+                    ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
+                            KnightQuestParticles.POISON_PARTICLE.get(),
+                            true,
+                            true,
+                            particleX, particleY, particleZ,
+                            1.2F, 1.2F, 1.2F,
+                            0.05F, 1
+                    );
+
+                    serverLevel.getServer().getPlayerList().broadcast(null, this.getX(), this.getY(), this.getZ(), 50, serverLevel.dimension(), packet);
+                }
+
+                float[] arrayX = {0.5F, -1, 1};
+                float[] arrayZ = {1, 0, -0.5F};
+
+                for (int i = 0; i < 3; i++) {
+                    double particleX = this.getX() + arrayX[i];
+                    double particleY = this.getY() - 0.2;
+                    double particleZ = this.getZ() + arrayZ[i];
+
+                    ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
+                            KnightQuestParticles.POISON_CLOUD_PARTICLE.get(),
+                            true,
+                            true,
+                            particleX, particleY, particleZ,
+                            0, 0.15F, 0,
+                            1F, 1
+                    );
+
+                    serverLevel.getServer().getPlayerList().broadcast(null, this.getX(), this.getY(), this.getZ(), 50, serverLevel.dimension(), packet);
+                }
+            }
+
+            this.discard();
+        }
+
+    }
+
+    private void poisonNearbyPlayers() {
+        this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(3.5)).forEach(player -> {
+            player.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
+        });
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>("controller", 1, this::predicate).setOverrideEasingType(EasingType.LINEAR));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+}
