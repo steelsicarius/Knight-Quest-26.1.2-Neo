@@ -55,11 +55,13 @@ not available for 26.1.2. Its usages were replaced in-mod:
 |------------------------------------------|--------------------------------------------------------------|
 | `knightlib:great_essence` / `small_essence` items | Added as `knightquest:great_essence` / `knightquest:small_essence` |
 | Great Chalice activation of weapons       | Weapons are always activated (no chalice step)               |
-| Great Chalice interop of essences         | Dropped (plain items)                                        |
+| Great Chalice interop of essences         | Reimplemented in-mod: `knightquest:great_chalice` block +    |
+|                                           | block entity (charges + chaotic state), essence/weapon/      |
+|                                           | goblet interactions and Netherman summon restored            |
 | `knightlib:filled_grail` in recipes       | Remapped to `knightquest:filled_goblet`                      |
 | KnightLib `STARSET` particle              | New `knightquest:starset` particle (spark textures)          |
 | Netherman boss music (`IBossMusicProvider`) | Dropped                                                    |
-| KnightLib items in creative tab           | KQ essence/goblet items shown instead                        |
+| KnightLib items in creative tab           | Great Chalice block + KQ essence/goblet items                |
 
 Epic Fight capability JSONs (`data/knightquest/capabilities/weapons`) are kept verbatim; they are
 inert without the Epic Fight compat stack.
@@ -90,6 +92,12 @@ inert without the Epic Fight compat stack.
 - Fix: summon crash (`Can't find attribute minecraft:tempt_range`) — `TemptGoal` now reads the
   `tempt_range` attribute which is no longer implied by `Monster.createMobAttributes()`; added to
   Gremlin and Bad Patch (the only mobs with a TemptGoal).
+- Add: Great Chalice block (`knightquest:great_chalice`) — block entity with 4 essence charges
+  and chaotic state. Offer great essence (+2) or small essence (+1) until full; offer chaotic
+  essence to attune it (weapons can then be activated by interacting); offer radiant essence to
+  summon the Netherman; offer empty goblets to gather filled goblets (armor recipes). Crafted
+  from copper ingots; great essence craftable from 4 small essences. Weapon abilities are gated
+  behind chalice activation again (vanilla-style `Activated` custom data).
 - Fix: missing textures — spawn egg models regenerated as `minecraft:item/generated` with
   pre-tinted textures (the old `item/template_spawn_egg` parent was removed in 26.x);
   `great_essence`/`small_essence` item models + definitions added (new KnightLib-replacement
