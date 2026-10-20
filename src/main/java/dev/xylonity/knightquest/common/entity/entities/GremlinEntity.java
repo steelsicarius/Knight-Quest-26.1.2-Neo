@@ -111,7 +111,9 @@ public class GremlinEntity extends Monster implements GeoEntity {
                 .add(Attributes.ATTACK_DAMAGE, 5.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.63f)
-                .add(Attributes.FOLLOW_RANGE, 35.0);
+                .add(Attributes.FOLLOW_RANGE, 35.0)
+                // 26.x: TemptGoal reads the tempt_range attribute; no longer implied by createMobAttributes
+                .add(Attributes.TEMPT_RANGE, 10.0);
     }
 
     private void updateAttributes() {

@@ -19,9 +19,18 @@ public class SwampmanAxeModel extends KQEntityModel<SwampmanAxeEntity> {
     }
 
     @Override
+    public Identifier getAnimationResource(SwampmanAxeEntity animatable) {
+        // There is no swampman_axe.animation.json; the v4 model reused the swampman animation
+        return Identifier.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "entity/swampman");
+    }
+
+    @Override
     public void addAdditionalStateData(SwampmanAxeEntity animatable, Object renderData, GeoRenderState renderState) {
         super.addAdditionalStateData(animatable, renderData, renderState);
 
         renderState.addGeckolibData(SHAKE_TICKET, (float) animatable.shakeTime);
+        // The axe reuses the swampman texture; there is no swampman_axe.png
+        renderState.addGeckolibData(TEXTURE_OVERRIDE,
+                Identifier.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "textures/entity/swampman.png"));
     }
 }
