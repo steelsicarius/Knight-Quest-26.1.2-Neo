@@ -24,6 +24,7 @@ public class KnightQuestBlocks {
             p -> new GreatChaliceBlock(p.mapColor(MapColor.METAL)
                     .strength(3.0F, 6.0F)
                     .sound(SoundType.COPPER)
+                    .noOcclusion()
                     .requiresCorrectToolForDrops()));
 
     public static final Supplier<Item> GREAT_CHALICE_ITEM = registerBlockItem("great_chalice", GREAT_CHALICE);

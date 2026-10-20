@@ -12,6 +12,7 @@ import dev.xylonity.knightquest.common.ai.navigator.GroundNavigator;
 import dev.xylonity.knightquest.common.entity.boss.ai.*;
 import dev.xylonity.knightquest.config.values.KQConfigValues;
 import dev.xylonity.knightquest.registry.KnightQuestItems;
+import dev.xylonity.knightquest.registry.KnightQuestSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -22,6 +23,7 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -88,6 +90,9 @@ public class NethermanEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Integer> COUNTER_SWITCH_PHASE_2 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COUNTER_SWITCH_PHASE_3 = SynchedEntityData.defineId(NethermanEntity.class, EntityDataSerializers.INT);
 
+    private static final int BOSS_MUSIC_INTERVAL_TICKS = 177 * 20; // disc length
+
+    private boolean hasBeenSummonCleared = false;
     private boolean hasBeenSwitchedToPhase2 = false;
     private boolean hasBeenSwitchedToPhase3 = false;
     private boolean initAttributes = false;
@@ -263,6 +268,12 @@ public class NethermanEntity extends Monster implements GeoEntity {
     public void tick() {
         super.tick();
 
+        // Boss music: the disc track loops while the boss is alive (replaces KnightLib's
+        // IBossMusicProvider; the sound event has a fixed 70-block range).
+        if (!this.level().isClientSide() && this.isAlive() && tickCount % BOSS_MUSIC_INTERVAL_TICKS == 0) {
+            this.level().playSound(null, this.blockPosition(), KnightQuestSounds.THE_ARCHITECT_OF_CHAOS.get(), SoundSource.RECORDS, 2.0F, 1.0F);
+        }
+
         if (!initAttributes) {
             AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
             if (maxHealth != null) {
@@ -278,12 +289,14 @@ public class NethermanEntity extends Monster implements GeoEntity {
             initAttributes = true;
         }
 
-        // Summon animation ending
-        if (!this.level().isClientSide() && tickCount == 100) {
+        // Summon animation ending (>= instead of == : a save/reload mid-summon can skip the
+        // exact tick and would leave the boss stuck invulnerable forever)
+        if (!this.level().isClientSide() && tickCount >= 100 && !hasBeenSummonCleared) {
             setIsSummoning(false);
             setNoMovement(false);
             setInvulnerability(false);
             setShouldSearchTarget(true);
+            hasBeenSummonCleared = true;
         }
 
         // Syncs the health bar with the actual health
@@ -345,7 +358,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         }
 
         // Restore atts after switching to second phase
-        if (getCounterSwitchPhase2() == 130 && !hasBeenSwitchedToPhase2) {
+        if (getCounterSwitchPhase2() >= 130 && !hasBeenSwitchedToPhase2) {
             setShouldSearchTarget(true);
             setNoMovement(false);
             setInvulnerability(false);
@@ -367,7 +380,7 @@ public class NethermanEntity extends Monster implements GeoEntity {
         }
 
         // Restore atts after switching to third phase
-        if (getCounterSwitchPhase3() == 160 && !hasBeenSwitchedToPhase3) {
+        if (getCounterSwitchPhase3() >= 160 && !hasBeenSwitchedToPhase3) {
             setShouldSearchTarget(true);
             setNoMovement(false);
             setInvulnerability(false);

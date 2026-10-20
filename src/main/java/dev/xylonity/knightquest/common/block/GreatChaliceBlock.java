@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -39,9 +41,20 @@ import org.jetbrains.annotations.Nullable;
  */
 public class GreatChaliceBlock extends Block implements EntityBlock {
 
+    /** Hollow cup: wide base slab + open-top walls (matches the 3D model). */
+    private static final VoxelShape SHAPE = Shapes.or(
+            Block.box(1, 0, 1, 15, 2, 15),
+            Block.box(2, 2, 2, 14, 13, 14));
+
     public GreatChaliceBlock(Properties properties) {
         super(properties);
     }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos, net.minecraft.world.phys.shapes.CollisionContext context) {
+        return SHAPE;
+    }
+
 
     @Nullable
     @Override
@@ -76,7 +89,7 @@ public class GreatChaliceBlock extends Block implements EntityBlock {
                 return InteractionResult.SUCCESS;
             }
 
-            if (stack.is(KnightQuestItems.RADIANT_ESSENCE.get()) && chalice.isFull() && chalice.isChaotic()) {
+            if (stack.is(KnightQuestItems.RADIANT_ESSENCE.get()) && chalice.isFull() && !chalice.isChaotic()) {
                 chalice.setCharges(0);
                 chalice.setChaotic(false);
                 stack.consume(1, player);
