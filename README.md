@@ -92,6 +92,14 @@ inert without the Epic Fight compat stack.
 - Fix: summon crash (`Can't find attribute minecraft:tempt_range`) — `TemptGoal` now reads the
   `tempt_range` attribute which is no longer implied by `Monster.createMobAttributes()`; added to
   Gremlin and Bad Patch (the only mobs with a TemptGoal).
+- Fix: Netherman could get permanently stuck in its summoning state (invulnerable, no movement,
+  no targeting) after a save/reload skipped the exact `tickCount == 100` transition; all one-shot
+  transitions now use `>=`. Boss music added as a looping sound while the boss is alive (replaces
+  KnightLib `IBossMusicProvider`). Radiant essence summons on a full NORMAL chalice (no chaotic
+  attunement needed), matching the original gating.
+- Fix: Great Chalice visuals — replaced the flat cross model with a 3D hollow-cup model (vanilla
+  copper textures), proper collision shape, `noOcclusion`, 3D inventory render and the original
+  8-copper-ingot ring recipe.
 - Add: Great Chalice block (`knightquest:great_chalice`) — block entity with 4 essence charges
   and chaotic state. Offer great essence (+2) or small essence (+1) until full; offer chaotic
   essence to attune it (weapons can then be activated by interacting); offer radiant essence to
