@@ -87,3 +87,10 @@ inert without the Epic Fight compat stack.
 ## Changelog of the port
 
 - 26.1.2-1.9.3: initial port (feature-parity with 1.21.1 v1.9.3, minus the KnightLib features above).
+- Fix: summon crash (`Can't find attribute minecraft:tempt_range`) — `TemptGoal` now reads the
+  `tempt_range` attribute which is no longer implied by `Monster.createMobAttributes()`; added to
+  Gremlin and Bad Patch (the only mobs with a TemptGoal).
+- Fix: missing textures — spawn egg models regenerated as `minecraft:item/generated` with
+  pre-tinted textures (the old `item/template_spawn_egg` parent was removed in 26.x);
+  `great_essence`/`small_essence` item models + definitions added (new KnightLib-replacement
+  items had no model); swampman axe uses the swampman texture/animation (no axe-specific asset exists).
