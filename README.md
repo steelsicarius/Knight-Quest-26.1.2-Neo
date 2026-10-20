@@ -17,6 +17,8 @@ Use port 25599 for test servers (`server.properties` or `--port 25599`) since 25
 
 ### Java code
 - [x] Entry point, platform layer (ServiceLoader), config (`ModConfigSpec`)
+- [x] Server verified: `./gradlew runServer` boots a dedicated server (port 25599, IPv4)
+      with the mod fully registered and datapack loaded without errors
 - [x] Materials: `Tier` -> `ToolMaterial`, `ArmorMaterial` registry -> data-driven records
 - [x] Items: swords without `SwordItem` (`Properties#sword`), armor without `ArmorItem`
       (`Properties#humanoidArmor`), new `TooltipDisplay` tooltip signature
@@ -26,6 +28,12 @@ Use port 25599 for test servers (`server.properties` or `--port 25599`) since 25
 - [x] Client: GeckoLib 5 models/renderers, particles, armor items
 - [x] Global loot modifiers (v2 datagen)
 - [ ] Boss music (was KnightLib `IBossMusicProvider`) — dropped, see below
+- [ ] Client visual polish pending runtime verification on a display (headless server only):
+      geo head-tracking (`setCustomAnimations`) is ported to render-state data tickets but the
+      final bone-rotation application is not wired yet; v4 glow layers (AutoGlowingGeoLayer)
+      and the Fallen Knight armor/held-item geo layers were dropped because GeckoLib 5 layers
+      require the runtime-injected `GeoRenderState` interface (compile-time it is not visible).
+      The axe/projectile custom orientation is also simplified.
 
 ### Resources
 - [x] Textures/lang/sounds/particles copied as-is
