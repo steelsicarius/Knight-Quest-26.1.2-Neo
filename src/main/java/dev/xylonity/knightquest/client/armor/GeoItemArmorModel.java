@@ -25,7 +25,7 @@ public class GeoItemArmorModel extends DefaultedItemGeoModel<GeoItemArmor> {
 
     @Override
     public Identifier getAnimationResource(GeoItemArmor animatable) {
-        return Identifier.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "geckolib/animations/item/helmet.animation.json");
+        return Identifier.fromNamespaceAndPath(KnightQuestCommon.MOD_ID, "item/helmet");
     }
 
 }
