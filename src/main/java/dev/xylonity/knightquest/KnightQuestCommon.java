@@ -1,6 +1,8 @@
 package dev.xylonity.knightquest;
 
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
+import dev.xylonity.knightquest.registry.KnightQuestBlockEntities;
+import dev.xylonity.knightquest.registry.KnightQuestBlocks;
 import dev.xylonity.knightquest.platform.KnightQuestPlatform;
 import dev.xylonity.knightquest.registry.*;
 import org.slf4j.Logger;
@@ -17,6 +19,9 @@ public class KnightQuestCommon {
 
     public static void init() {
         KQArmorMaterials.init();
+        // Force-load the block registries (only otherwise referenced lazily)
+        KnightQuestBlocks.init();
+        KnightQuestBlockEntities.init();
         KnightQuestItems.init();
         KnightQuestSounds.init();
         KnightQuestParticles.init();

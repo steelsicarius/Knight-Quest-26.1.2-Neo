@@ -27,6 +27,7 @@ public class KnightQuestCreativeModeTabs {
                     .displayItems((displayContext, entries) -> {
 
                         // Knight Quest (replaces the original KnightLib entries; see README)
+                        entries.accept(KnightQuestBlocks.GREAT_CHALICE_ITEM.get());
                         entries.accept(KnightQuestItems.GREAT_ESSENCE.get());
                         entries.accept(KnightQuestItems.SMALL_ESSENCE.get());
                         entries.accept(KnightQuestItems.EMPTY_GOBLET.get());

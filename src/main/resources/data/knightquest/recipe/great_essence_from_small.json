@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "knightquest:small_essence",
+    "knightquest:small_essence",
+    "knightquest:small_essence",
+    "knightquest:small_essence"
+  ],
+  "result": {
+    "id": "knightquest:great_essence",
+    "count": 1
+  }
+}

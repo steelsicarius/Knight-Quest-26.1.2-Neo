@@ -13,6 +13,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -32,18 +34,22 @@ public class KnightQuest {
     public static final String MOD_ID = KnightQuestCommon.MOD_ID;
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(KnightQuest.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(KnightQuest.MOD_ID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, KnightQuest.MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, KnightQuest.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KnightQuest.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(Registries.ENTITY_TYPE, KnightQuest.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, KnightQuest.MOD_ID);
 
     public KnightQuest(IEventBus modEventBus, ModContainer modContainer) {
 
         KQLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
 
         SOUNDS.register(modEventBus);
+        BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
         PARTICLES.register(modEventBus);
         ENTITY.register(modEventBus);

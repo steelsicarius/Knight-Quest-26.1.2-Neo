@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "knightquest:block/great_chalice",
+    "particle": "knightquest:block/great_chalice"
+  }
+}

@@ -39,9 +39,28 @@ public abstract class KQWeaponItem extends Item {
         super(properties.sword(material, attackBaseline, speed));
     }
 
+    /**
+     * Whether the weapon has been activated by interacting with a Great Chalice filled with
+     * chaotic essence (restored KnightLib behaviour).
+     */
+    public static boolean isActivated(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getBooleanOr("Activated", false);
+    }
+
+    public static void setActivated(ItemStack stack, boolean activated) {
+        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        CompoundTag dataTag = customData.copyTag();
+        dataTag.putBoolean("Activated", activated);
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+    }
+
     @Override
     public @NotNull InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+
+        if (!isActivated(stack)) {
+            return InteractionResult.FAIL;
+        }
 
         CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag dataTag = customData.copyTag();
@@ -71,6 +90,10 @@ public abstract class KQWeaponItem extends Item {
         if (isEnabled()) {
             pTooltipComponents.accept(Component.translatable("tooltip.weapon.knightquest." + getName()));
 
+            if (!isActivated(pStack)) {
+                pTooltipComponents.accept(Component.translatable("tooltip.weapon.knightquest.disabled_abilities"));
+            }
+
             pTooltipComponents.accept(Component.translatable("tooltip.weapon.knightquest." + getName() + ".active",
                     KQConfigValues.SPEED_TICKS_KUKRI.get() / 20F,
                     KQConfigValues.INV_TICKS_PALADIN.get() / 20F,
@@ -86,6 +109,10 @@ public abstract class KQWeaponItem extends Item {
                     (int) Math.floor(KQConfigValues.REGEN_MAX_PALADIN.get().floatValue() * 100),
                     (int) Math.floor(KQConfigValues.EXTRA_DAMAGE_PASSIVE_CLEAVER.get() * 100),
                     (int) Math.floor(KQConfigValues.ENEMY_HEALTH_PASSIVE_CLEAVER.get() * 100)));
+
+            if (!isActivated(pStack)) {
+                pTooltipComponents.accept(Component.translatable("tooltip.weapon.knightquest.use_chalice"));
+            }
         }
 
         super.appendHoverText(pStack, pContext, pTooltipDisplay, pTooltipComponents, pTooltipFlag);
