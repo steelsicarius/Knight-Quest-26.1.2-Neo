@@ -1,3 +1,5 @@
+## Unofficial adaptation of KnightQuest for NeoForge 26.1.2 (includes KnightLib) - Requires GeckoLib
+
 ![wyi1b9n](https://github.com/Xylonity/Knight-Quest/assets/42015327/805ed986-7bed-40da-9628-fe5f44bc7a75)
 <br><br><br>
 <b>Knight Quest</b> is a mod that adds over 30 armor sets, each with passive abilities, hostile mobs with unique skills, new weapons, tameable mobs, a boss with 3 phases, and much more. The mod revolves around a block called the <i>Great Chalice</i>, which must be filled with Great Essence (crafted by combining 4 Small Essences obtained from killing monsters). Once the Chalice is completely full, you can use an empty goblet to fill it and use it as a crafting item or to summon the boss.
