@@ -1,5 +1,4 @@
-modLoader = "javafml" #mandatory
-loaderVersion = "[26,)" #mandatory
+# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 license = "${mod_license}"
 issueTrackerURL = "https://github.com/Xylonity/Knight-Quest/issues"
 
@@ -13,22 +12,22 @@ authors = "${mod_author}"
 description = '''${mod_description}'''
 
 [[dependencies.${mod_id}]]
-modId = "neoforge"
-type = "required"
-versionRange = "[${neo_version},)"
-ordering = "NONE"
-side = "BOTH"
+    modId = "neoforge"
+    type = "required"
+    versionRange = "[${neo_version},)"
+    ordering = "NONE"
+    side = "BOTH"
 
 [[dependencies.${mod_id}]]
-modId = "minecraft"
-type = "required"
-versionRange = "${minecraft_version_range}"
-ordering = "NONE"
-side = "BOTH"
+    modId = "minecraft"
+    type = "required"
+    versionRange = "${minecraft_version_range}"
+    ordering = "NONE"
+    side = "BOTH"
 
 [[dependencies.${mod_id}]]
-modId = "geckolib"
-type = "required"
-versionRange = "[5,)"
-ordering = "AFTER"
-side = "BOTH"
+    modId = "geckolib"
+    type = "required"
+    versionRange = "[5,)"
+    ordering = "AFTER"
+    side = "BOTH"

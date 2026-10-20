@@ -26,6 +26,12 @@ import java.util.Map;
  */
 public class KQArmorMaterials {
 
+    /** Item tag used as the repair material for every KQ armor piece (holds knightquest:great_essence). */
+    public static final TagKey<Item> GREAT_ESSENCE_TAG = KQItemMaterials.GREAT_ESSENCE_TAG;
+
+    /** Maps each material to its config/tooltip key name (e.g. "apple", "bamboo_blue"). */
+    private static final Map<ArmorMaterial, String> KEY_NAMES = Maps.newIdentityHashMap();
+
     public static final ArmorMaterial APPLE_SET = create("apple", 3, 6, 8, 3, 35, 20, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F);
     public static final ArmorMaterial BAMBOOSET_BLUE = create("bamboo_blue", 3, 6, 8, 3, 40, 25, SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F);
     public static final ArmorMaterial BAMBOOSET_GREEN = create("bamboo_green", 3, 6, 8, 3, 40, 25, SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F);
@@ -70,12 +76,6 @@ public class KQArmorMaterials {
     public static final ArmorMaterial SHINOBI = create("shinobi", 3, 6, 8, 3, 35, 20, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F);
     public static final ArmorMaterial SKULK = create("skulk", 3, 6, 8, 3, 40, 25, SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F);
     public static final ArmorMaterial TENGU = create("tengu", 3, 6, 8, 3, 40, 25, SoundEvents.ARMOR_EQUIP_NETHERITE, 4F, 0.1F);
-
-    /** Item tag used as the repair material for every KQ armor piece (holds knightquest:great_essence). */
-    public static final TagKey<Item> GREAT_ESSENCE_TAG = KQItemMaterials.GREAT_ESSENCE_TAG;
-
-    /** Maps each material to its config/tooltip key name (e.g. "apple", "bamboo_blue"). */
-    private static final Map<ArmorMaterial, String> KEY_NAMES = Maps.newIdentityHashMap();
 
     public static void init() { ;; }
 

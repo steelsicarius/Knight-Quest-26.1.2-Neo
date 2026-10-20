@@ -9,15 +9,15 @@ import java.util.function.Supplier;
 
 public class KnightQuestWeapons {
 
-    public static final Supplier<Item> PALADIN_SWORD = register("paladin_sword", () -> new PaladinWeapon(KQItemMaterials.PALADIN, -1f, -2.6f, new Item.Properties().fireResistant()));
-    public static final Supplier<Item> NAIL = register("nail_glaive", () -> new NailWeapon(KQItemMaterials.NAIL, -1f, -2.4f, new Item.Properties().fireResistant()));
-    public static final Supplier<Item> UCHIGATANA = register("uchigatana_katana", () -> new UchigatanaWeapon(KQItemMaterials.UCHIGATANA, -1f, -2.2f, new Item.Properties().fireResistant()));
-    public static final Supplier<Item> KUKRI = register("kukri_dagger", () -> new KukriWeapon(KQItemMaterials.KUKRI, -1f, -1f, new Item.Properties()));
-    public static final Supplier<Item> KHOPESH = register("khopesh_claymore", () -> new KhopeshWeapon(KQItemMaterials.KHOPESH, -1f, -2.6f, new Item.Properties().fireResistant()));
-    public static final Supplier<Item> CLEAVER = register("cleaver", () -> new CleaverWeapon(KQItemMaterials.CLEAVER, -1f, -3.2f, new Item.Properties().fireResistant()));
+    public static final Supplier<Item> PALADIN_SWORD = register("paladin_sword", p -> new PaladinWeapon(KQItemMaterials.PALADIN, -1f, -2.6f, p.fireResistant()));
+    public static final Supplier<Item> NAIL = register("nail_glaive", p -> new NailWeapon(KQItemMaterials.NAIL, -1f, -2.4f, p.fireResistant()));
+    public static final Supplier<Item> UCHIGATANA = register("uchigatana_katana", p -> new UchigatanaWeapon(KQItemMaterials.UCHIGATANA, -1f, -2.2f, p.fireResistant()));
+    public static final Supplier<Item> KUKRI = register("kukri_dagger", p -> new KukriWeapon(KQItemMaterials.KUKRI, -1f, -1f, p));
+    public static final Supplier<Item> KHOPESH = register("khopesh_claymore", p -> new KhopeshWeapon(KQItemMaterials.KHOPESH, -1f, -2.6f, p.fireResistant()));
+    public static final Supplier<Item> CLEAVER = register("cleaver", p -> new CleaverWeapon(KQItemMaterials.CLEAVER, -1f, -3.2f, p.fireResistant()));
 
-    private static Supplier<Item> register(String id, Supplier<Item> item) {
-        return KnightQuest.ITEMS.register(id, item);
+    private static Supplier<Item> register(String id, java.util.function.Function<Item.Properties, Item> item) {
+        return KnightQuest.ITEMS.registerItem(id, item);
     }
 
 }

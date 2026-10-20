@@ -86,6 +86,8 @@ neoForge {
 
         // applies to all the run configs above
         configureEach {
+            // This host has no IPv6 support; force IPv4 for the dev servers
+            jvmArgument '-Djava.net.preferIPv4Stack=true'
             // Recommended logging data for a userdev environment
             // The markers can be added/remove as needed separated by commas.
             // "SCAN": For mods scan.

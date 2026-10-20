@@ -28,7 +28,9 @@ import net.minecraft.world.item.ToolMaterial;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 @SuppressWarnings("unchecked")
 public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
@@ -61,13 +63,13 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
-        return KnightQuest.ITEMS.register(id, item);
+    public <T extends Item> Supplier<T> registerItem(String id, Function<Item.Properties, T> item) {
+        return KnightQuest.ITEMS.registerItem(id, item);
     }
 
     @Override
     public <T extends Mob> Supplier<Item> registerSpawnEggItem(String id, Supplier<EntityType<T>> entity) {
-        return registerItem(id, () -> new SpawnEggItem(new Item.Properties().spawnEgg(entity.get())));
+        return KnightQuest.ITEMS.registerItem(id, p -> new SpawnEggItem(p.spawnEgg(entity.get())), Item.Properties::new);
     }
 
     @Override
@@ -81,20 +83,22 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerSpecificItem(String id, Item.Properties properties, KnightQuestItems.KQItemType type) {
+    @SuppressWarnings("unchecked")
+    public <T extends Item> Supplier<T> registerSpecificItem(String id, UnaryOperator<Item.Properties> properties, KnightQuestItems.KQItemType type) {
         if (type == KnightQuestItems.KQItemType.CHAOTIC_ESSENCE) {
-            return (Supplier<T>) registerItem(id, () -> new ChaoticEssenceItem(properties, id));
+            return (Supplier<T>) registerItem(id, p -> new ChaoticEssenceItem(properties.apply(p), id));
         } else if (type == KnightQuestItems.KQItemType.RADIANT_ESSENCE) {
-            return (Supplier<T>) registerItem(id, () -> new RadiantEssenceItem(properties, id));
+            return (Supplier<T>) registerItem(id, p -> new RadiantEssenceItem(properties.apply(p), id));
         }
 
-        return (Supplier<T>) registerItem(id, () -> new KnightQuestItem(properties, id));
+        return (Supplier<T>) registerItem(id, p -> new KnightQuestItem(properties.apply(p), id));
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerGeoArmorItem(String id, ArmorMaterial armorMaterial, ArmorType armorType, boolean containsTooltip, boolean containsExtraTooltip, Item.Properties properties, int durabilityAmount) {
+    @SuppressWarnings("unchecked")
+    public <T extends Item> Supplier<T> registerGeoArmorItem(String id, ArmorMaterial armorMaterial, ArmorType armorType, boolean containsTooltip, boolean containsExtraTooltip, UnaryOperator<Item.Properties> properties, int durabilityAmount) {
         if (containsExtraTooltip)
-            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new GeoItemArmor(armorMaterial, armorType, properties.humanoidArmor(armorMaterial, armorType), id, containsTooltip) {
+            return (Supplier<T>) KnightQuest.ITEMS.registerItem(id, p -> new GeoItemArmor(armorMaterial, armorType, properties.apply(p).humanoidArmor(armorMaterial, armorType), id, containsTooltip) {
                 @Override
                 public void appendHoverText(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull TooltipDisplay display, @NotNull java.util.function.Consumer<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
                     tooltipComponents.accept(Component.translatable(TOOLTIP_ITEM_PATH + id));
@@ -102,18 +106,20 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
                 }
             });
         else
-            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new GeoItemArmor(armorMaterial, armorType, properties.humanoidArmor(armorMaterial, armorType), id, containsTooltip));
+            return (Supplier<T>) KnightQuest.ITEMS.registerItem(id, p -> new GeoItemArmor(armorMaterial, armorType, properties.apply(p).humanoidArmor(armorMaterial, armorType), id, containsTooltip));
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerArmorItem(String id, ArmorMaterial armorMaterial, ArmorType armorType, boolean containsTooltip, Item.Properties properties, int durabilityAmount) {
-        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new KQArmorItem(armorMaterial, armorType, properties.humanoidArmor(armorMaterial, armorType), containsTooltip));
+    @SuppressWarnings("unchecked")
+    public <T extends Item> Supplier<T> registerArmorItem(String id, ArmorMaterial armorMaterial, ArmorType armorType, boolean containsTooltip, UnaryOperator<Item.Properties> properties, int durabilityAmount) {
+        return (Supplier<T>) KnightQuest.ITEMS.registerItem(id, p -> new KQArmorItem(armorMaterial, armorType, properties.apply(p).humanoidArmor(armorMaterial, armorType), containsTooltip));
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerSwordItem(String id, ToolMaterial itemMaterial, Item.Properties properties, float attackBaseline, float speedMalus, boolean containsTooltip) {
+    @SuppressWarnings("unchecked")
+    public <T extends Item> Supplier<T> registerSwordItem(String id, ToolMaterial itemMaterial, UnaryOperator<Item.Properties> properties, float attackBaseline, float speedMalus, boolean containsTooltip) {
         if (containsTooltip)
-            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new Item(properties.sword(itemMaterial, attackBaseline, speedMalus)) {
+            return (Supplier<T>) KnightQuest.ITEMS.registerItem(id, p -> new Item(properties.apply(p).sword(itemMaterial, attackBaseline, speedMalus)) {
                 @Override
                 public void appendHoverText(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull TooltipDisplay display, @NotNull java.util.function.Consumer<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
                     tooltipComponents.accept(Component.translatable(TOOLTIP_ITEM_PATH + id));
@@ -121,12 +127,13 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
                 }
             });
         else
-            return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new Item(properties.sword(itemMaterial, attackBaseline, speedMalus)));
+            return (Supplier<T>) KnightQuest.ITEMS.registerItem(id, p -> new Item(properties.apply(p).sword(itemMaterial, attackBaseline, speedMalus)));
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerAxeItem(String id, ToolMaterial itemMaterial, Item.Properties properties, float damageBoost, float speedMalus) {
-        return (Supplier<T>) KnightQuest.ITEMS.register(id, () -> new AxeItem(itemMaterial, damageBoost, speedMalus, properties));
+    @SuppressWarnings("unchecked")
+    public <T extends Item> Supplier<T> registerAxeItem(String id, ToolMaterial itemMaterial, UnaryOperator<Item.Properties> properties, float damageBoost, float speedMalus) {
+        return (Supplier<T>) KnightQuest.ITEMS.registerItem(id, p -> new AxeItem(itemMaterial, damageBoost, speedMalus, properties.apply(p)));
     }
 
     @Override
@@ -140,8 +147,9 @@ public class KnightQuestNeoForgePlatform implements KnightQuestPlatform {
     }
 
     @Override
-    public <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, Item.Properties properties, int length) {
-        return (Supplier<T>) registerItem(id, () -> new Item(properties.jukeboxPlayable(ResourceKey.create(Registries.JUKEBOX_SONG, Identifier.fromNamespaceAndPath(KnightQuest.MOD_ID, "the_architect_of_chaos")))));
+    @SuppressWarnings("unchecked")
+    public <T extends Item> Supplier<T> registerMusicDisc(String id, int signal, Supplier<SoundEvent> soundEvent, UnaryOperator<Item.Properties> properties, int length) {
+        return (Supplier<T>) registerItem(id, p -> new Item(properties.apply(p).jukeboxPlayable(ResourceKey.create(Registries.JUKEBOX_SONG, Identifier.fromNamespaceAndPath(KnightQuest.MOD_ID, "the_architect_of_chaos")))));
     }
 
 }
