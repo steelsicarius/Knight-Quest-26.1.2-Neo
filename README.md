@@ -100,6 +100,11 @@ inert without the Epic Fight compat stack.
 - Fix: Great Chalice visuals — replaced the flat cross model with a 3D hollow-cup model (vanilla
   copper textures), proper collision shape, `noOcclusion`, 3D inventory render and the original
   8-copper-ingot ring recipe.
+- Fix: Great Chalice purple-checker cube + raw `item.knightquest.great_chalice` name — 26.x no
+  longer supports the `builtin/entity` model parent (the block model baked as the missing-model
+  cube); replaced with an empty parentless model (the geo BER draws everything), the BER is now
+  registered in `EntityRenderersEvent.RegisterRenderers`, and the block item uses the block
+  description prefix.
 - Port: the ORIGINAL KnightLib Great Chalice (from the Knight-Lib-1.21.1 sources): GeckoLib geo
   block with the `liquid` bone that rises per charge (12 max charges, hidden when empty) and
   swaps to the chaotic texture when attuned, idle animation, animated textures, block entity
