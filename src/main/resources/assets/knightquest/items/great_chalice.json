@@ -1,6 +1,5 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "knightquest:item/great_chalice"
+    "type": "geckolib:geckolib"
   }
 }

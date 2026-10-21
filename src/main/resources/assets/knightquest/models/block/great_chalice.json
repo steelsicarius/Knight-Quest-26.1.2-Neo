@@ -1,202 +1,102 @@
 {
-  "textures": {
-    "base": "minecraft:block/exposed_copper",
-    "body": "minecraft:block/copper_block",
-    "grate": "minecraft:block/copper_grate",
-    "particle": "minecraft:block/copper_block"
-  },
-  "elements": [
-    {
-      "from": [
-        1,
-        0,
-        1
-      ],
-      "to": [
-        15,
-        2,
-        15
-      ],
-      "faces": {
-        "north": {
-          "texture": "#base"
-        },
-        "south": {
-          "texture": "#base"
-        },
-        "east": {
-          "texture": "#base"
-        },
-        "west": {
-          "texture": "#base"
-        },
-        "up": {
-          "texture": "#base"
-        },
-        "down": {
-          "texture": "#base"
-        }
-      }
+    "credit": "Made with Blockbench",
+    "parent": "builtin/entity",
+    "texture_size": [
+        96,
+        96
+    ],
+    "textures": {
+        "particle": "knightquest:block/great_chalice_break"
     },
-    {
-      "from": [
-        2,
-        2,
-        2
-      ],
-      "to": [
-        14,
-        4,
-        14
-      ],
-      "faces": {
-        "north": {
-          "texture": "#body"
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                22,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                -2,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
         },
-        "south": {
-          "texture": "#body"
+        "thirdperson_lefthand": {
+            "rotation": [
+                22,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                -2,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
         },
-        "east": {
-          "texture": "#body"
+        "firstperson_righthand": {
+            "scale": [
+                0.3,
+                0.3,
+                0.3
+            ]
         },
-        "west": {
-          "texture": "#body"
+        "firstperson_lefthand": {
+            "scale": [
+                0.3,
+                0.3,
+                0.3
+            ]
         },
-        "up": {
-          "texture": "#body"
+        "ground": {
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
         },
-        "down": {
-          "texture": "#body"
+        "gui": {
+            "rotation": [
+                30,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                -5.25,
+                0
+            ],
+            "scale": [
+                0.65,
+                0.65,
+                0.65
+            ]
+        },
+        "fixed": {
+            "rotation": [
+                -18.75,
+                54.5,
+                0
+            ],
+            "translation": [
+                0,
+                -7,
+                2
+            ]
         }
-      }
-    },
-    {
-      "from": [
-        2,
-        4,
-        2
-      ],
-      "to": [
-        14,
-        13,
-        4
-      ],
-      "faces": {
-        "north": {
-          "texture": "#grate"
-        },
-        "south": {
-          "texture": "#grate"
-        },
-        "east": {
-          "texture": "#grate"
-        },
-        "west": {
-          "texture": "#grate"
-        },
-        "up": {
-          "texture": "#grate"
-        },
-        "down": {
-          "texture": "#grate"
-        }
-      }
-    },
-    {
-      "from": [
-        2,
-        4,
-        12
-      ],
-      "to": [
-        14,
-        13,
-        14
-      ],
-      "faces": {
-        "north": {
-          "texture": "#grate"
-        },
-        "south": {
-          "texture": "#grate"
-        },
-        "east": {
-          "texture": "#grate"
-        },
-        "west": {
-          "texture": "#grate"
-        },
-        "up": {
-          "texture": "#grate"
-        },
-        "down": {
-          "texture": "#grate"
-        }
-      }
-    },
-    {
-      "from": [
-        2,
-        4,
-        4
-      ],
-      "to": [
-        4,
-        13,
-        12
-      ],
-      "faces": {
-        "north": {
-          "texture": "#grate"
-        },
-        "south": {
-          "texture": "#grate"
-        },
-        "east": {
-          "texture": "#grate"
-        },
-        "west": {
-          "texture": "#grate"
-        },
-        "up": {
-          "texture": "#grate"
-        },
-        "down": {
-          "texture": "#grate"
-        }
-      }
-    },
-    {
-      "from": [
-        12,
-        4,
-        4
-      ],
-      "to": [
-        14,
-        13,
-        12
-      ],
-      "faces": {
-        "north": {
-          "texture": "#grate"
-        },
-        "south": {
-          "texture": "#grate"
-        },
-        "east": {
-          "texture": "#grate"
-        },
-        "west": {
-          "texture": "#grate"
-        },
-        "up": {
-          "texture": "#grate"
-        },
-        "down": {
-          "texture": "#grate"
-        }
-      }
     }
-  ]
 }

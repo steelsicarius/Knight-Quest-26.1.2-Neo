@@ -5,7 +5,7 @@
     "C": "minecraft:copper_ingot"
   },
   "pattern": [
-    "CCC",
+    "C C",
     "C C",
     "CCC"
   ],

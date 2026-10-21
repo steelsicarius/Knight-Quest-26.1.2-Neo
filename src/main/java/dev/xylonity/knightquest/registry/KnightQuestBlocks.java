@@ -2,7 +2,7 @@ package dev.xylonity.knightquest.registry;
 
 import dev.xylonity.knightquest.KnightQuest;
 import dev.xylonity.knightquest.common.block.GreatChaliceBlock;
-import dev.xylonity.knightquest.common.item.KQBlockItem;
+import dev.xylonity.knightquest.common.item.blockitem.GreatChaliceBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -34,7 +34,7 @@ public class KnightQuestBlocks {
     }
 
     private static Supplier<Item> registerBlockItem(String name, Supplier<Block> block) {
-        return KnightQuest.ITEMS.registerItem(name, p -> new KQBlockItem(block.get(), p, "great_chalice"));
+        return KnightQuest.ITEMS.registerItem(name, p -> new GreatChaliceBlockItem(block.get(), p));
     }
 
 }

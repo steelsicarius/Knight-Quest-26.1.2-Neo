@@ -1,10 +1,14 @@
 package dev.xylonity.knightquest.common.event;
 
 import dev.xylonity.knightquest.KnightQuest;
+import dev.xylonity.knightquest.client.blockentity.renderer.GreatChaliceRenderer;
 import dev.xylonity.knightquest.client.entity.renderer.*;
 import dev.xylonity.knightquest.common.particle.*;
 import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestParticles;
+import dev.xylonity.knightquest.common.block.GreatChaliceBlockEntity;
+import dev.xylonity.knightquest.registry.KnightQuestBlockEntities;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,6 +27,12 @@ public class KQClientEventProviders {
         event.registerSpriteSet(KnightQuestParticles.POISON_PARTICLE.get(), PoisonParticle.Provider::new);
         event.registerSpriteSet(KnightQuestParticles.POISON_CLOUD_PARTICLE.get(), PoisonCloudParticle.Provider::new);
         event.registerSpriteSet(KnightQuestParticles.STARSET.get(), YellowParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerBlockEntityRenderers(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> BlockEntityRenderers.register(
+                KnightQuestBlockEntities.GREAT_CHALICE.get(), GreatChaliceRenderer::new));
     }
 
     @SubscribeEvent

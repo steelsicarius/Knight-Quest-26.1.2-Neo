@@ -1,7 +1,12 @@
 package dev.xylonity.knightquest.registry;
 
 import dev.xylonity.knightquest.KnightQuestCommon;
+import dev.xylonity.knightquest.common.item.ChaoticEssenceItem;
+import dev.xylonity.knightquest.common.item.EmptyGobletItem;
+import dev.xylonity.knightquest.common.item.GreatEssenceItem;
 import dev.xylonity.knightquest.common.item.KnightQuestItem;
+import dev.xylonity.knightquest.common.item.RadiantEssenceItem;
+import dev.xylonity.knightquest.common.item.SmallEssenceItem;
 import dev.xylonity.knightquest.common.material.KQArmorMaterials;
 import dev.xylonity.knightquest.common.material.KQItemMaterials;
 import net.minecraft.network.chat.Component;
@@ -22,12 +27,12 @@ public class KnightQuestItems {
     public static void init() { ;; }
 
     // Replacements for the KnightLib items used by the original mod
-    public static final Supplier<Item> GREAT_ESSENCE = registerItem("great_essence", p -> new KnightQuestItem(p.fireResistant().rarity(Rarity.RARE), "great_essence"));
-    public static final Supplier<Item> SMALL_ESSENCE = registerItem("small_essence", p -> new KnightQuestItem(p.fireResistant(), "small_essence"));
+    public static final Supplier<Item> GREAT_ESSENCE = registerItem("great_essence", p -> new GreatEssenceItem(p.fireResistant().rarity(Rarity.RARE), "great_essence"));
+    public static final Supplier<Item> SMALL_ESSENCE = registerItem("small_essence", p -> new SmallEssenceItem(p.fireResistant(), "small_essence"));
 
     public static final Supplier<Item> RADIANT_ESSENCE = registerSpecificItem("radiant_essence", p -> p, KQItemType.RADIANT_ESSENCE);
     public static final Supplier<Item> CHAOTIC_ESSENCE = registerSpecificItem("chaotic_essence", p -> p, KQItemType.CHAOTIC_ESSENCE);
-    public static final Supplier<Item> EMPTY_GOBLET = registerItem("empty_goblet", p -> new KnightQuestItem(p, "empty_goblet"));
+    public static final Supplier<Item> EMPTY_GOBLET = registerItem("empty_goblet", p -> new EmptyGobletItem(p, "empty_goblet"));
     public static final Supplier<Item> FILLED_GOBLET = registerItem("filled_goblet", p -> new KnightQuestItem(p, "filled_goblet"));
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", p -> new KnightQuestItem(p, "ratman_eye"));
     public static final Supplier<Item> LIZZY_SCALE = registerItem("lizzy_scale", p -> new KnightQuestItem(p, "lizzy_scale"));
