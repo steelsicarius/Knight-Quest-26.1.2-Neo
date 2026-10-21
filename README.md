@@ -100,6 +100,12 @@ inert without the Epic Fight compat stack.
 - Fix: Great Chalice visuals — replaced the flat cross model with a 3D hollow-cup model (vanilla
   copper textures), proper collision shape, `noOcclusion`, 3D inventory render and the original
   8-copper-ingot ring recipe.
+- Port: the ORIGINAL KnightLib Great Chalice (from the Knight-Lib-1.21.1 sources): GeckoLib geo
+  block with the `liquid` bone that rises per charge (12 max charges, hidden when empty) and
+  swaps to the chaotic texture when attuned, idle animation, animated textures, block entity
+  particles, the `IGreatChaliceInteractable` system (great essence +4, small essence +1,
+  chaotic essence attunes, radiant essence summons the Netherman, empty goblet drains into a
+  filled goblet) and the item renderer for the 3D inventory display. Original 8-copper recipe.
 - Add: Great Chalice block (`knightquest:great_chalice`) — block entity with 4 essence charges
   and chaotic state. Offer great essence (+2) or small essence (+1) until full; offer chaotic
   essence to attune it (weapons can then be activated by interacting); offer radiant essence to
