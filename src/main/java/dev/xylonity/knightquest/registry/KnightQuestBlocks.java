@@ -34,7 +34,7 @@ public class KnightQuestBlocks {
     }
 
     private static Supplier<Item> registerBlockItem(String name, Supplier<Block> block) {
-        return KnightQuest.ITEMS.registerItem(name, p -> new GreatChaliceBlockItem(block.get(), p));
+        return KnightQuest.ITEMS.registerItem(name, p -> new GreatChaliceBlockItem(block.get(), p.useBlockDescriptionPrefix()));
     }
 
 }

@@ -8,7 +8,6 @@ import dev.xylonity.knightquest.registry.KnightQuestEntities;
 import dev.xylonity.knightquest.registry.KnightQuestParticles;
 import dev.xylonity.knightquest.common.block.GreatChaliceBlockEntity;
 import dev.xylonity.knightquest.registry.KnightQuestBlockEntities;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -30,9 +29,8 @@ public class KQClientEventProviders {
     }
 
     @SubscribeEvent
-    public static void registerBlockEntityRenderers(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
-        event.enqueueWork(() -> BlockEntityRenderers.register(
-                KnightQuestBlockEntities.GREAT_CHALICE.get(), GreatChaliceRenderer::new));
+    public static void registerBlockEntityRenderers(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(KnightQuestBlockEntities.GREAT_CHALICE.get(), GreatChaliceRenderer::new);
     }
 
     @SubscribeEvent
