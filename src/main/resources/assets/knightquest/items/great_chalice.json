@@ -1,5 +1,9 @@
 {
   "model": {
-    "type": "geckolib:geckolib"
+    "type": "minecraft:special",
+    "base": "knightquest:block/great_chalice",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
   }
 }

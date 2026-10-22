@@ -13,6 +13,27 @@ JAVA_HOME=/usr/java/jdk-25-oracle-aarch64 ./gradlew build
 Run the client/server dev instances with the usual ModDevGradle tasks (`runClient`, `runServer`).
 Use port 25599 for test servers (`server.properties` or `--port 25599`) since 25565 is taken.
 
+### Running `runClient` on this aarch64 host
+
+The Minecraft 26.x library set only ships `natives-linux` (x64) LWJGL binaries, so `runClient`
+dies on load on this machine unless the arm64 natives are provided. Working recipe:
+
+1. Download the `natives-linux-arm64` jars for the ten LWJGL 3.4.1 modules used by MC
+   (`lwjgl`, `lwjgl-freetype`, `lwjgl-glfw`, `lwjgl-jemalloc`, `lwjgl-openal`, `lwjgl-opengl`,
+   `lwjgl-shaderc`, `lwjgl-stb`, `lwjgl-tinyfd`, `lwjgl-spvc`; several are already in the local
+   Gradle cache) and extract the `.so` files into one directory, e.g. `/tmp/lwjgl-arm64-natives`.
+2. `libopenal.so` from LWJGL 3.4.1 needs `GLIBCXX_3.4.30`, newer than Oracle Linux 9's
+   libstdc++ — grab `libstdc++.so.6` from a conda-forge `libstdcxx` aarch64 package into e.g.
+   `/tmp/stdcxx/lib` and export `LD_LIBRARY_PATH=/tmp/stdcxx/lib`.
+3. Add `jvmArgument '-Dorg.lwjgl.librarypath=/tmp/lwjgl-arm64-natives'` to the `client` run
+   (temporarily) and run:
+   `LD_LIBRARY_PATH=/tmp/stdcxx/lib JAVA_HOME=/usr/java/jdk-25-oracle-aarch64 DISPLAY=:99 ./gradlew runClient --no-daemon`
+   (the box has an Xvfb on `:99`; `--no-daemon` so the game process inherits the env).
+4. Optional smoke test: `--quickPlayMultiplayer localhost:25599` auto-joins the dev server, and
+   `onboardAccessibility:false` in `run/options.txt` stops the accessibility onboarding screen
+   from blocking quickplay. Sound will be off (`Failed to open OpenAL device` — no audio
+   hardware; MC handles it).
+
 ## Port status
 
 ### Java code
@@ -105,6 +126,22 @@ inert without the Epic Fight compat stack.
   cube); replaced with an empty parentless model (the geo BER draws everything), the BER is now
   registered in `EntityRenderersEvent.RegisterRenderers`, and the block item uses the block
   description prefix.
+- Fix: Gran Cáliz ITEM missing texture (purple/black checkerboard in the hotbar, inventory,
+  hand and as a dropped item) — the item definition `items/great_chalice.json` used
+  `{"type": "geckolib:geckolib"}` as a top-level ITEM-MODEL type, but GeckoLib 5.5.2 registers
+  `geckolib:geckolib` as a *SpecialModelRenderer* type (through its `SpecialModelRenderersMixin`
+  on `SpecialModelRenderers.ID_MAPPER`), not as an `ItemModel.Unbaked` type. The only item-model
+  types in 26.x are `minecraft:{empty, model, range_dispatch, special, composite,
+  bundle/selected_item, select, condition}`, so the definition failed to parse
+  (`Couldn't parse item model 'knightquest:great_chalice'`) and the item fell back to the
+  missing model. Fixed by wrapping it the same way vanilla wraps the shield:
+  `{"model": {"type": "minecraft:special", "base": "knightquest:block/great_chalice",
+  "model": {"type": "geckolib:geckolib"}}}` — the `base` block model supplies the display
+  transforms (gui/hand/ground) and the particle texture, and GeckoLib's
+  `GeckolibItemSpecialRenderer` renders the geo model via the `GeoItemRenderer` registered in
+  `GreatChaliceBlockItem#createGeoRenderer`. Verified in-game on this host: 3D icon in the
+  hotbar, first-person held-item render, no parse errors and zero missing-texture pixels
+  (capture: `logs/verificacion_chalice_fixed.png`).
 - Port: the ORIGINAL KnightLib Great Chalice (from the Knight-Lib-1.21.1 sources): GeckoLib geo
   block with the `liquid` bone that rises per charge (12 max charges, hidden when empty) and
   swaps to the chaotic texture when attuned, idle animation, animated textures, block entity
