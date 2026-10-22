@@ -87,6 +87,43 @@ not available for 26.1.2. Its usages were replaced in-mod:
 Epic Fight capability JSONs (`data/knightquest/capabilities/weapons`) are kept verbatim; they are
 inert without the Epic Fight compat stack.
 
+## Pending from the parity audit (vs 1.21.1 + KnightLib 1.5.0)
+
+Full audit done 2026-10-22 comparing registries, assets, data, recipes, loot, configs, entities,
+weapons, armor and the KnightLib interop. Verified 1:1: items/entities/particles/sounds/creative
+tab, all assets (reorganised to the v5 layout), all data (recipes/loot/tags/spawns/jukebox/Epic
+Fight capabilities, `filled_grail` -> `filled_goblet` in 170 recipes), the Great Chalice interop
+(12 charges, +4/+1 essences, goblet drain, chaotic attunement, radiant summon, weapon
+activation), the Netherman (goals/phases/music) and the 122 config values. Two real gaps found:
+
+- **`KQArmorEvents` (neoforge 1.21.1) was not ported** — the 467-line behaviour layer with ALL
+  damage/death/tick/arrow based bonuses. Missing:
+  - weapon passives: Kukri freeze-on-hit; Uchigatana active bonus (+darkness; the
+    `ShouldDoActiveAttack` tag is set but nothing consumes it) and its low-HP extra damage;
+    Cleaver high-HP extra damage; Khopesh reflect window + burn chance; Paladin held-weapon
+    HP regen; Tengu-helmet/activated-Nail mid-air double jump.
+  - armour set bonuses: Squire (damage received x), Deepslate (fall damage x), Evoker
+    (darkness chance on attacker), Blaze (ignite attacker), Dragon (dragon breath immunity +
+    damage x), Bamboo Green (poison removal/damage cancel), Shinobi (speed when hit), Bamboo
+    (fall: smoke ring + knockback), Enderman (dodge teleport), Veteran (buffs below 50% HP),
+    Forze (deflect), Creeper (explosion x), Polar (freeze immunity), Silver (night burn on
+    attack), Hollow (lifesteal), Wither (arrow wither chance), Apple (regen on apple eaten),
+    Conquistador (Strength on kill), Witch (regen on kill), Skeleton (arrow pierce 5), Husk
+    (resistance in desert/badlands/beach), Bamboo Blue (jungle speed), Warlord (resistance
+    aura), Zombie (night regen), Silverfish (haste below Y level).
+    Note: the new `KQArmorItem` tooltips already *describe* these bonuses (same config values),
+    so the sets currently advertise effects that do not trigger. Only the 13 inventoryTick
+    effect sets (Path, Bow, Bat, Shield, Phantom, Horn, Sea, Pirate, Spider, Nether, Skulk,
+    Strawhat + tooltips) are active.
+- **KnightLib's `homunculus` item was not ported**: it is in the original creative tab and
+    craftable (leather + filled grail + rotten flesh + soul sand + bone) and exposes the
+    `IHomunculusInteractable` interop. No KQ/KL block implements the interface, so it is
+    inert-but-obtainable content in the original; porting it is cosmetic interop parity.
+
+Not gaps (verified): Momma Lizzy is unregistered dead code in both versions (commented out in
+1.21.1); boss music IS implemented (the two "dropped" README notes above are stale); the
+Great Chalice starset ring entity is intentionally replaced by the `starset` particle.
+
 ## Notable API migrations (1.21.1 -> 26.1.2)
 
 - `ResourceLocation` -> `Identifier`
