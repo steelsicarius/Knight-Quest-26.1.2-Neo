@@ -22,7 +22,13 @@ public class KhopeshWeapon extends KQWeaponItem {
 
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
 
-        data = data.update(tag -> tag.putLong("LastUsed", level.getGameTime()));
+        // Port note: 1.21.1 wrote "LastUsed" here (already written by KQWeaponItem#use) and never
+        // wrote "KhopeshActive", so the tooltip-promised reflection window could never trigger.
+        // The active now arms the window that KQArmorEvents' reflection check reads.
+        data = data.update(tag -> {
+            tag.putLong("LastUsed", level.getGameTime());
+            tag.putLong("KhopeshActive", level.getGameTime());
+        });
         stack.set(DataComponents.CUSTOM_DATA, data);
     }
 

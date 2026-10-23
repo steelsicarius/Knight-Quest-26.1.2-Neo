@@ -32,6 +32,7 @@ public class KnightQuestCreativeModeTabs {
                         entries.accept(KnightQuestItems.SMALL_ESSENCE.get());
                         entries.accept(KnightQuestItems.EMPTY_GOBLET.get());
                         entries.accept(KnightQuestItems.FILLED_GOBLET.get());
+                        entries.accept(KnightQuestItems.HOMUNCULUS.get());
                         entries.accept(KnightQuestItems.RADIANT_ESSENCE.get());
                         entries.accept(KnightQuestItems.CHAOTIC_ESSENCE.get());
                         entries.accept(KnightQuestItems.RATMAN_EYE.get());

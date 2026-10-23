@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:leather",
+    "knightquest:filled_goblet",
+    "minecraft:rotten_flesh",
+    "minecraft:soul_sand",
+    "minecraft:bone"
+  ],
+  "result": {
+    "id": "knightquest:homunculus",
+    "count": 1
+  }
+}

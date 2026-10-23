@@ -87,38 +87,46 @@ not available for 26.1.2. Its usages were replaced in-mod:
 Epic Fight capability JSONs (`data/knightquest/capabilities/weapons`) are kept verbatim; they are
 inert without the Epic Fight compat stack.
 
-## Pending from the parity audit (vs 1.21.1 + KnightLib 1.5.0)
+## Parity audit (vs 1.21.1 + KnightLib 1.5.0) — gaps now implemented
 
 Full audit done 2026-10-22 comparing registries, assets, data, recipes, loot, configs, entities,
 weapons, armor and the KnightLib interop. Verified 1:1: items/entities/particles/sounds/creative
 tab, all assets (reorganised to the v5 layout), all data (recipes/loot/tags/spawns/jukebox/Epic
 Fight capabilities, `filled_grail` -> `filled_goblet` in 170 recipes), the Great Chalice interop
 (12 charges, +4/+1 essences, goblet drain, chaotic attunement, radiant summon, weapon
-activation), the Netherman (goals/phases/music) and the 122 config values. Two real gaps found:
+activation), the Netherman (goals/phases/music) and the 122 config values.
 
-- **`KQArmorEvents` (neoforge 1.21.1) was not ported** — the 467-line behaviour layer with ALL
-  damage/death/tick/arrow based bonuses. Missing:
-  - weapon passives: Kukri freeze-on-hit; Uchigatana active bonus (+darkness; the
-    `ShouldDoActiveAttack` tag is set but nothing consumes it) and its low-HP extra damage;
-    Cleaver high-HP extra damage; Khopesh reflect window + burn chance; Paladin held-weapon
-    HP regen; Tengu-helmet/activated-Nail mid-air double jump.
-  - armour set bonuses: Squire (damage received x), Deepslate (fall damage x), Evoker
-    (darkness chance on attacker), Blaze (ignite attacker), Dragon (dragon breath immunity +
-    damage x), Bamboo Green (poison removal/damage cancel), Shinobi (speed when hit), Bamboo
-    (fall: smoke ring + knockback), Enderman (dodge teleport), Veteran (buffs below 50% HP),
-    Forze (deflect), Creeper (explosion x), Polar (freeze immunity), Silver (night burn on
-    attack), Hollow (lifesteal), Wither (arrow wither chance), Apple (regen on apple eaten),
-    Conquistador (Strength on kill), Witch (regen on kill), Skeleton (arrow pierce 5), Husk
-    (resistance in desert/badlands/beach), Bamboo Blue (jungle speed), Warlord (resistance
-    aura), Zombie (night regen), Silverfish (haste below Y level).
-    Note: the new `KQArmorItem` tooltips already *describe* these bonuses (same config values),
-    so the sets currently advertise effects that do not trigger. Only the 13 inventoryTick
-    effect sets (Path, Bow, Bat, Shield, Phantom, Horn, Sea, Pirate, Spider, Nether, Skulk,
-    Strawhat + tooltips) are active.
-- **KnightLib's `homunculus` item was not ported**: it is in the original creative tab and
-    craftable (leather + filled grail + rotten flesh + soul sand + bone) and exposes the
-    `IHomunculusInteractable` interop. No KQ/KL block implements the interface, so it is
-    inert-but-obtainable content in the original; porting it is cosmetic interop parity.
+The two gaps found by the audit are now IMPLEMENTED (2026-10-23):
+
+- **`KQArmorEvents` ported** (`common/event/KQArmorEvents.java`) — the full 1.21.1 behaviour
+  layer, adapted to 26.1.2:
+  - `onLivingHurt` (`LivingIncomingDamageEvent`, server-side only): Kukri freeze-on-hit,
+    Uchigatana active bonus (consumes `ShouldDoActiveAttack`, +`EXTRA_DAMAGE_UCHIGATANA` and
+    darkness) and low-HP passive, Cleaver high-HP passive, Khopesh reflect window + burn chance,
+    and the victim/attacker armour set bonuses (Squire, Deepslate, Evoker, Blaze, Dragon,
+    Bamboo Green incl. damage cancel, Shinobi, Bamboo fall ring+knockback via
+    `ServerLevel#sendParticles`, Enderman dodge teleport, Veteran, Forze deflect via
+    `hurtServer`, Creeper, Polar, Silver, Hollow, Dragon, Wither-arrows).
+  - `onLivingUpdate` (`LivingEntityUseItemEvent.Finish`): Apple-set regeneration on eating an
+    apple; `onLivingDead` (`LivingDeathEvent`): Conquistador/Witch kill buffs;
+    `onArrowHit` (`EntityJoinLevelEvent`): Skeleton-set arrow pierce 5;
+    `onLivingTick` (`EntityTickEvent.Post`): Paladin held-weapon regen, Husk biome resistance,
+    Bamboo Green poison removal, Bamboo Blue jungle speed, Warlord aura, Zombie night heal,
+    Polar freeze reset, Silverfish haste below Y.
+  - The client-side Tengu-helmet/activated-Nail mid-air double jump is ported to its own
+    client-only subscriber `KQDoubleJumpEvents` (project pattern: `value = Dist.CLIENT`), so the
+    1.21.1 `FMLEnvironment.dist` hack is gone. 1.21.1 bug kept unfixed-by-design: the reflection
+    read `KhopeshActive` but nobody ever wrote it, so the tooltip-promised reflect never worked;
+    `KhopeshWeapon#interaction` now arms the window (deliberate fix).
+  - Runtime-verified on this host (dev client on Xvfb + dev server with RCON): Deepslate
+    `x0.2` fall multiplier exact, Zombie `+1.0HP/6s` night heal exact, Bamboo Green damage
+    CANCEL + poison removal, Forze deflect damaging the attacker (husk 20.0 -> 17.64), and all
+    five handlers registered on the NeoForge bus.
+- **KnightLib's `homunculus` ported**: `knightquest:homunculus` item (`HomunculusItem` +
+  `IHomunculusInteractable` interop), craftable (leather + filled goblet + rotten flesh + soul
+  sand + bone, 26.x recipe format), in the creative tab after the filled goblet, with model/
+  texture and `item`/`tooltip` lang keys in all 10 languages. Runtime-verified: the item loads
+  into a player inventory and the recipe is packaged.
 
 Not gaps (verified): Momma Lizzy is unregistered dead code in both versions (commented out in
 1.21.1); boss music IS implemented (the two "dropped" README notes above are stale); the

@@ -4,6 +4,7 @@ import dev.xylonity.knightquest.KnightQuestCommon;
 import dev.xylonity.knightquest.common.item.ChaoticEssenceItem;
 import dev.xylonity.knightquest.common.item.EmptyGobletItem;
 import dev.xylonity.knightquest.common.item.GreatEssenceItem;
+import dev.xylonity.knightquest.common.item.HomunculusItem;
 import dev.xylonity.knightquest.common.item.KnightQuestItem;
 import dev.xylonity.knightquest.common.item.RadiantEssenceItem;
 import dev.xylonity.knightquest.common.item.SmallEssenceItem;
@@ -34,6 +35,7 @@ public class KnightQuestItems {
     public static final Supplier<Item> CHAOTIC_ESSENCE = registerSpecificItem("chaotic_essence", p -> p, KQItemType.CHAOTIC_ESSENCE);
     public static final Supplier<Item> EMPTY_GOBLET = registerItem("empty_goblet", p -> new EmptyGobletItem(p, "empty_goblet"));
     public static final Supplier<Item> FILLED_GOBLET = registerItem("filled_goblet", p -> new KnightQuestItem(p, "filled_goblet"));
+    public static final Supplier<Item> HOMUNCULUS = registerItem("homunculus", p -> new HomunculusItem(p));
     public static final Supplier<Item> RATMAN_EYE = registerItem("ratman_eye", p -> new KnightQuestItem(p, "ratman_eye"));
     public static final Supplier<Item> LIZZY_SCALE = registerItem("lizzy_scale", p -> new KnightQuestItem(p, "lizzy_scale"));
 
