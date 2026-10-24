@@ -4,36 +4,6 @@ Port of [Knight Quest](https://github.com/Xylonity/Knight-Quest) (original NeoFo
 multi-loader project at `Knight-Quest-1.21-multi`) to **NeoForge 26.1.2 / Minecraft 26.1.2**
 (Java 25, ModDevGradle 2.0.148, GeckoLib 5.5.2).
 
-## Build
-
-```bash
-JAVA_HOME=/usr/java/jdk-25-oracle-aarch64 ./gradlew build
-```
-
-Run the client/server dev instances with the usual ModDevGradle tasks (`runClient`, `runServer`).
-Use port 25599 for test servers (`server.properties` or `--port 25599`) since 25565 is taken.
-
-### Running `runClient` on this aarch64 host
-
-The Minecraft 26.x library set only ships `natives-linux` (x64) LWJGL binaries, so `runClient`
-dies on load on this machine unless the arm64 natives are provided. Working recipe:
-
-1. Download the `natives-linux-arm64` jars for the ten LWJGL 3.4.1 modules used by MC
-   (`lwjgl`, `lwjgl-freetype`, `lwjgl-glfw`, `lwjgl-jemalloc`, `lwjgl-openal`, `lwjgl-opengl`,
-   `lwjgl-shaderc`, `lwjgl-stb`, `lwjgl-tinyfd`, `lwjgl-spvc`; several are already in the local
-   Gradle cache) and extract the `.so` files into one directory, e.g. `/tmp/lwjgl-arm64-natives`.
-2. `libopenal.so` from LWJGL 3.4.1 needs `GLIBCXX_3.4.30`, newer than Oracle Linux 9's
-   libstdc++ — grab `libstdc++.so.6` from a conda-forge `libstdcxx` aarch64 package into e.g.
-   `/tmp/stdcxx/lib` and export `LD_LIBRARY_PATH=/tmp/stdcxx/lib`.
-3. Add `jvmArgument '-Dorg.lwjgl.librarypath=/tmp/lwjgl-arm64-natives'` to the `client` run
-   (temporarily) and run:
-   `LD_LIBRARY_PATH=/tmp/stdcxx/lib JAVA_HOME=/usr/java/jdk-25-oracle-aarch64 DISPLAY=:99 ./gradlew runClient --no-daemon`
-   (the box has an Xvfb on `:99`; `--no-daemon` so the game process inherits the env).
-4. Optional smoke test: `--quickPlayMultiplayer localhost:25599` auto-joins the dev server, and
-   `onboardAccessibility:false` in `run/options.txt` stops the accessibility onboarding screen
-   from blocking quickplay. Sound will be off (`Failed to open OpenAL device` — no audio
-   hardware; MC handles it).
-
 ## Port status
 
 ### Java code
